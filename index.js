@@ -9,3 +9,5 @@ app.listen(port, function(err){
     }
     console.log(`Server set at port: ${port}`);
 });
+
+app.use('/', require('./routes'));
