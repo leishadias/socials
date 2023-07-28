@@ -1,14 +1,12 @@
 const User = require('../models/user');
 
 module.exports.signup = function(req, res){
-    // return res.end("text-profile");
     return res.render('user_sign_up', {
         title:"sign up"
     });
 };
 
 module.exports.signin = function(req, res){
-    // return res.end("text-profile");
     return res.render('user_sign_in', {
         title:"sign in"
     });
@@ -16,10 +14,7 @@ module.exports.signin = function(req, res){
 
 
 module.exports.createSession = function(req, res){
-    // // return res.end("text-profile");
-    // return res.render('user_sign_in', {
-    //     title:"sign in"
-    // });
+    return res.redirect('/');
 };
 
 module.exports.create = function(req, res){
