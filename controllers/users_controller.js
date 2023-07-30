@@ -1,12 +1,24 @@
 const User = require('../models/user');
 
+module.exports.profile = function(req, res){
+    return res.render('profile', {
+        title:"profile"
+    });
+};
+
 module.exports.signup = function(req, res){
+    if (req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
     return res.render('user_sign_up', {
         title:"sign up"
     });
 };
 
 module.exports.signin = function(req, res){
+    if (req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
     return res.render('user_sign_in', {
         title:"sign in"
     });
@@ -35,3 +47,11 @@ module.exports.create = function(req, res){
         console.log('error in finding user');
     });
 };
+
+module.exports.destroySession=function(req, res){
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        return res.redirect('/');
+      });
+}
+

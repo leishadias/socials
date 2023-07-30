@@ -6,20 +6,17 @@ passport.use(new LocalStratergy({
     usernameField: 'email'
     },
     function(email, password, done) {
-      User.findOne({ email: email }, function (err, user) {
-        if (err) { 
-            console.log('error in finding user');
-            return done(err); 
+      User.findOne({ email: email }).then(
+        function (user) {
+          if (!user || user.password!=password) { 
+              console.log('user not found');
+              return done(null, false); 
+          }
+          return done(null, user);
         }
-        if (!user) { 
-            console.log('user not found');
-            return done(null, false); 
-        }
-        if (!user.verifyPassword(password)) { 
-            console.log('wrong password');
-            return done(null, false); 
-        }
-        return done(null, user);
+      ).catch((err)=>{
+        console.log('error in finding user');
+        return done(err); 
       });
     }
   ));
@@ -31,14 +28,30 @@ passport.use(new LocalStratergy({
 
   //deserialze
   passport.deserializeUser(function(id, done){
-    User.findById(id, function(err, user){
-        if (err){
-            console.log('couldnt find user - deserialized');
-            return done(err);
-        }
+    User.findById(id).then(
+      function(user){
         return done(null, user);
-    });
+    }
+    ).catch(
+      (err)=>{
+        console.log('couldnt find user - deserialized');
+        return done(err);
+      });
   });
+
+  passport.checkAuthentication= function(req,res,next){
+    if(req.isAuthenticated()){
+      return next();
+    }
+    return res.redirect('/users/signin');
+  }
+
+  passport.setAuthenticatedUser= function(req,res,next){
+    if(req.isAuthenticated()){
+      res.locals.user = req.user;
+    }
+    next();
+  }
 
   module.exports=passport;
   
