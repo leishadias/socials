@@ -17,6 +17,7 @@ module.exports.home = async function(req, res){
             all_users: users
             });
     }catch(err){
-        console.log('Error', err);
+        console.log('Error while loading home page', err);
+        return;
     }
 };
