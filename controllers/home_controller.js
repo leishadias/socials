@@ -13,7 +13,14 @@ const Post = require('../models/post');
 // };
 
 module.exports.home = function(req, res){
-    Post.find({}).populate('user').exec().then((posts)=>{
+    Post.find({}).populate('user')
+    .populate({
+        path: 'comments',
+        populate: {
+            path: 'user'
+        }
+    })
+    .exec().then((posts)=>{
         return res.render('home', {
             title:"home",
             postlist: posts
