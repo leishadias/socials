@@ -2,8 +2,19 @@
 
 <section>
     <h4>Posts</h4>
-    <form action="/post" method="post">
+    <form action="/posts/create" method="post">
         <textarea name="content" cols="30" rows="3" placeholder="Enter text"></textarea>
         <input type="submit" value="Post">
     </form>
+</section>
+
+<section>
+    <ul>
+        <% for (var i=0; i<postlist.length; i++){ %>
+            <li>
+                <div><p><%= postlist[i].content %></p></div>
+                <div><p><%= postlist[i].user.name %></p></div>
+            </li>
+        <% } %>
+    </ul>
 </section>

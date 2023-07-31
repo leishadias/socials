@@ -1,8 +1,24 @@
+const Post = require('../models/post');
+
+// module.exports.home = function(req, res){
+//     Post.find({}).then((postlist)=>{
+//         return res.render('home', {
+//             title:"home",
+//             postlist: postlist
+//         });
+//     }).catch(()=>{
+//         console.log('couldnt fetch posts');
+//     });
+    
+// };
+
 module.exports.home = function(req, res){
-    // return res.end("text-abc");
-    // console.log(req.cookies);
-    // res.cookie('username',25);
-    return res.render('home', {
-        title:"home"
+    Post.find({}).populate('user').exec().then((posts)=>{
+        return res.render('home', {
+            title:"home",
+            postlist: posts
+            });
+    }).catch(()=>{
+        console.log('couldnt fetch posts');
     });
 };
