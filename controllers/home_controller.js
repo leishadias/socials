@@ -1,31 +1,22 @@
-const Post = require('../models/post');
+const Post = require('../models/post')
+const User = require('../models/user');
 
-// module.exports.home = function(req, res){
-//     Post.find({}).then((postlist)=>{
-//         return res.render('home', {
-//             title:"home",
-//             postlist: postlist
-//         });
-//     }).catch(()=>{
-//         console.log('couldnt fetch posts');
-//     });
-    
-// };
-
-module.exports.home = function(req, res){
-    Post.find({}).populate('user')
-    .populate({
-        path: 'comments',
-        populate: {
-            path: 'user'
-        }
-    })
-    .exec().then((posts)=>{
+module.exports.home = async function(req, res){
+    try{
+        let posts = await Post.find({}).populate('user')
+        .populate({
+            path: 'comments',
+            populate: {
+                path: 'user'
+            }
+        });
+        let users = await User.find({});
         return res.render('home', {
             title:"home",
-            postlist: posts
+            postlist: posts,
+            all_users: users
             });
-    }).catch(()=>{
-        console.log('couldnt fetch posts');
-    });
+    }catch(err){
+        console.log('Error', err);
+    }
 };

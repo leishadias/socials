@@ -1,9 +1,13 @@
 const User = require('../models/user');
 
 module.exports.profile = function(req, res){
-    return res.render('profile', {
-        title:"profile"
+    User.findById(req.params.id).then((user)=>{
+        return res.render('profile', {
+            title:"profile",
+            profile_user: user
+        });
     });
+    
 };
 
 module.exports.signup = function(req, res){
@@ -55,3 +59,12 @@ module.exports.destroySession=function(req, res){
       });
 }
 
+module.exports.update=function(req,res){
+    if (req.user.id==req.params.id){
+        User.findByIdAndUpdate(req.params.id, req.body).then(()=>{
+            return res.redirect('back');
+        });
+    }else{
+        return res.status(401).send('Unauthorised');
+    }
+}
