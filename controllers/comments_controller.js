@@ -51,3 +51,18 @@ module.exports.create = async function (req, res) {
     return; // res.status(500).send('Internal server error');
   }
 };
+
+module.exports.destroy = async function(req, res){
+  Comments.findById(req.params.id).then((comment)=>{
+    if (comment.user.toString() == req.user.id){
+      let postId = comment.post;
+      Comments.deleteOne({ _id: req.params.id });
+      Post.findByIdAndUpdate(postId, {$pull:{comments:req.params.id}}).then(()=>{
+        return res.redirect('back');
+      });
+    }else{
+      return res.redirect('back');
+    }
+  });
+
+};
