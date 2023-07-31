@@ -5,8 +5,8 @@ module.exports.create = async function (req, res) {
   try {
     let post = await Post.findById(req.body.post);
     if (!post) {
-      console.log('Post not found while creating comment');
-      return; 
+      req.flash('error', 'Post not found while creating comment'); //console.log('Post not found while creating comment');
+      return res.redirect('back');
     }
     let comment = await Comments.create({
       content: req.body.content,
@@ -16,11 +16,11 @@ module.exports.create = async function (req, res) {
 
     post.comments.push(comment);
     await post.save();
-
+    req.flash('success', 'Comment updated successfully');
     return res.redirect('/');
   } catch (err) {
-    console.log('Error in creating comment', err);
-    return; 
+    req.flash('error', err);
+    return res.redirect('back');
   }
 };
 
@@ -31,10 +31,11 @@ module.exports.destroy = async function(req, res){
       let postId = comment.post;
       await Comments.deleteOne({ _id: req.params.id });
       await Post.findByIdAndUpdate(postId, {$pull:{comments:req.params.id}});
-    }
+      req.flash('success', 'Comment deleted successfully');
+    } 
     return res.redirect('back');
   } catch(err){
-    console.log('Error in delting comments', err);
-    return; 
+    req.flash('error', err);
+    return res.redirect('back');
   }
 };
