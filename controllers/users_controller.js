@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const fs = require('fs');
+const path = require('path');
 
 module.exports.profile = async function(req, res){
     try{
@@ -73,13 +75,35 @@ module.exports.destroySession=function(req, res){
 
 module.exports.update=async function(req,res){
     try{
-        if (req.user.id==req.params.id){
-            await User.findByIdAndUpdate(req.params.id, req.body);
-            req.flash('success', 'Details updated successfully');
-            return res.redirect('back');
-        }else{
-            return res.status(401).send('Unauthorised');
-        }
+        // if (req.user.id==req.params.id){
+        //     await User.findByIdAndUpdate(req.params.id, req.body);
+        //     req.flash('success', 'Details updated successfully');
+        //     return res.redirect('back');
+        // }else{
+        //     return res.status(401).send('Unauthorised');
+        // }
+        let user = await User.findById(req.params.id);
+        User.uploadedAvatar(req,res,function(err){
+            if (err){
+                console.log("error in multer", err);
+                return;
+            }
+            if (req.user.id==req.params.id){
+                user.name=req.body.name;
+                user.email=req.body.email;
+
+                if(req.file){
+                    if (user.avatar){
+                        fs.unlinkSync(path.join(__dirname,"..",user.avatar));
+                    }
+                    user.avatar=path.join(User.avatarPath, req.file.filename);
+                }
+                user.save();
+                return res.redirect('back');
+            }else{
+                return res.status(401).send('Unauthorised');
+            }
+        });
     }catch(err){
         req.flash('error', err); //console.log('error', err);
         return res.redirect('back');
