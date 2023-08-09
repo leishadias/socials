@@ -1,6 +1,8 @@
 const User = require('../models/user');
+const ResetToken = require('../models/reset_pw_token');
 const fs = require('fs');
 const path = require('path');
+const userMailer = require('../mailers/resetPW_mailer');
 
 module.exports.profile = async function(req, res){
     try{
@@ -108,4 +110,42 @@ module.exports.update=async function(req,res){
         req.flash('error', err); //console.log('error', err);
         return res.redirect('back');
     }
+}
+
+module.exports.resetPassword = async function(req, res){
+    try{
+        //check if existing any active row is present
+        let user = await User.findOne({user: req.params.id, isValid: true});
+        if(user){
+          //send same token mail again
+
+          userMailer.resetPassword(user);
+        }else{
+            //create new token and send mail
+            user = await ResetToken.create({
+                user: req.params.id,
+                accessToken: createToken(),
+                isValid: true
+            });
+            await comment.populate('user', 'name email');
+            userMailer.resetPassword(user);
+        }
+        req.flash('success', 'Reset link sent to email');
+    }catch(err){
+        req.flash('error', err); //console.log('error', err);
+        return res.redirect('back');
+    }
+}
+
+function createToken() {
+    let result = '';
+    let length=10;
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
 }

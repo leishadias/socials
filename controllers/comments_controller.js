@@ -1,5 +1,7 @@
 const Comments = require('../models/comments');
 const Post = require('../models/post');
+const commentsMailer = require('../mailers/comments_mailer');
+// const commentsEmailWorker = require('../workers/comment_email_worker');
 
 module.exports.create = async function (req, res) {
   try {
@@ -16,8 +18,15 @@ module.exports.create = async function (req, res) {
 
     post.comments.push(comment);
     await post.save();
+    await comment.populate('user', 'name email');
+    commentsMailer.newComment(comment);
+    // let job=queueMicrotask.create('emails',comment).save(function(err){
+    //   if (err){
+
+    //   }
+    //   console.log(job.id);
+    // });
     if(req.xhr){
-      await comment.populate('user', 'name');
       return res.status(200).json({
           data: {
             comment: comment
