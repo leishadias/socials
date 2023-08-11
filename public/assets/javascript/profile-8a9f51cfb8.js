@@ -1,0 +1,1 @@
+{const e=document.getElementById("profile-pic-input"),t=document.getElementById("previewImage");e.addEventListener("change",(n=>{const[c]=e.files;c&&(t.src=URL.createObjectURL(c))}))}

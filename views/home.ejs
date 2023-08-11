@@ -1,5 +1,5 @@
-<link rel="stylesheet" type="text/css" href="/css/home.css">
-<link rel="stylesheet" type="text/css" href="/css/chat_box.css">
+<link rel="stylesheet" type="text/css" href="<%= assetPath('css/home.css') %>">
+<link rel="stylesheet" type="text/css" href="<%= assetPath('css/chat_box.css') %>">
 <div id="home-container">
     <div id="post-container">
         <section>
@@ -29,10 +29,10 @@
     </section>
     <%- include('_chatbox') -%>
 </div>
-<script src="/javascript/home_comments.js"></script>
-<script src="/javascript/home_posts.js"></script>
+<script src="<%= assetPath('javascript/home_comments.js') %>"></script>
+<script src="<%= assetPath('javascript/home_posts.js') %>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
-<script src="/javascript/chat_engine.js"></script>
+<script src="<%= assetPath('javascript/chat_engine.js') %>"></script>
 <% if (locals.user){ %>
     <script>
         new ChatEngine('user-chat-box', '<%= locals.user.email %>')

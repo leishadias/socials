@@ -1,6 +1,9 @@
 const express = require('express');
+const env = require('./config/environment');
+const logger=require('morgan');
 const cookieParser = require('cookie-parser');
 const app = express();
+require('./config/view_helpers')(app);
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db = require('./config/mongoose');
@@ -34,8 +37,9 @@ console.log('chat server is listening on port 5000');
 
 app.use(express.urlencoded());
 app.use(cookieParser());
-app.use(express.static('./assets'));
+app.use(express.static(__dirname + env.asset_path));
 app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use(logger(env.morgan.mode, env.morgan.options));
 app.use(expressLayouts);
 //extract style and scripts from sub pages into the layout
 app.set('layout extractStyles', true);
@@ -48,7 +52,7 @@ app.set('views', './views');
 app.use(
     session({
       name: 'codial',
-      secret: 'blahblah',
+      secret: env.session_cookie_key,
       saveUninitialized: false,
       resave: false,
       cookie: {
