@@ -31,8 +31,9 @@
 </div>
 <script src="<%= assetPath('javascript/home_comments.js') %>"></script>
 <script src="<%= assetPath('javascript/home_posts.js') %>"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
 <script src="<%= assetPath('javascript/chat_engine.js') %>"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+
 <% if (locals.user){ %>
     <script>
         new ChatEngine('user-chat-box', '<%= locals.user.email %>')
