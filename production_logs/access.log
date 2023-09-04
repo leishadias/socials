@@ -80,3 +80,7 @@
 ::1 - - [11/Aug/2023:05:50:29 +0000] "GET /undefined HTTP/1.1" 404 148 "http://localhost:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
 ::1 - - [11/Aug/2023:05:50:42 +0000] "GET /undefined HTTP/1.1" 404 148 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
 ::1 - - [11/Aug/2023:06:00:40 +0000] "GET / HTTP/1.1" 200 3545 "http://localhost:8000/users/signin" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
+::1 - - [19/Aug/2023:04:07:58 +0000] "GET / HTTP/1.1" 200 2752 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+::1 - - [19/Aug/2023:04:08:00 +0000] "GET /favicon.ico HTTP/1.1" 404 150 "http://localhost:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+::1 - - [19/Aug/2023:04:08:04 +0000] "GET /users/signin HTTP/1.1" 200 2405 "http://localhost:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
+::1 - - [19/Aug/2023:04:08:07 +0000] "GET /users/auth/google HTTP/1.1" 302 0 "http://localhost:8000/users/signin" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36"
