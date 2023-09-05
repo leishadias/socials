@@ -2,6 +2,7 @@ const express = require('express');
 const env = require('./config/environment');
 const logger=require('morgan');
 const cookieParser = require('cookie-parser');
+const path=require('path');
 const app = express();
 require('./config/view_helpers')(app);
 const port = 8000;
@@ -37,7 +38,7 @@ console.log('chat server is listening on port 5000');
 
 app.use(express.urlencoded({extended:false}));
 app.use(cookieParser());
-app.use(express.static(__dirname + env.asset_path));
+app.use(express.static(path.join(__dirname, env.asset_path)));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(logger(env.morgan.mode, env.morgan.options));
 app.use(expressLayouts);
