@@ -24,21 +24,34 @@ gulp.task('css', function(done){
     done();
 });
 
-gulp.task('js', function(done){
+// gulp.task('js', function(done){
+//     console.log('minifying js...');
+
+//     gulp.src('./assets/**/*.js')
+//     .pipe(uglify())
+//     .pipe(rev())
+//     .pipe(gulp.dest('./public/assets'))
+//     .pipe(rev.manifest({
+//         cwd: 'public',
+//         merge: true
+//     }))
+//     .pipe(gulp.dest('./public/assets'));
+//     done();
+// });
+
+gulp.task('js', function() {
     console.log('minifying js...');
 
-    gulp.src('./assets/**/*.js')
-    .pipe(uglify())
-    .pipe(rev())
-    .pipe(gulp.dest('./public/assets'))
-    .pipe(rev.manifest({
-        cwd: 'public',
-        merge: true
-    }))
-    .pipe(gulp.dest('./public/assets'));
-    done();
+    return gulp.src('./assets/**/*.js')
+        .pipe(uglify())
+        .pipe(rev())
+        .pipe(gulp.dest('./public/assets'))
+        .pipe(rev.manifest({
+            cwd: 'public',
+            merge: true
+        }))
+        .pipe(gulp.dest('./public/assets'));
 });
-
 
 gulp.task('images', function(done){
     console.log('minifying js...');
